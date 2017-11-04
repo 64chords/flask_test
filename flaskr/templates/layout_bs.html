@@ -20,7 +20,7 @@
     for(var i in graphs) {
         Plotly.plot(ids[i], // the ID of the div, created above
                     graphs[i].data,
-                    graphs[i].layout || {});
+                    graphs[i].layout || {});  //layoutプロパティが無ければ空のオブジェクト
     }
 </script>
 {{super()}}

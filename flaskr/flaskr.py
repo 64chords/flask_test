@@ -6,6 +6,8 @@ import pandas as pd
 import json
 import plotly
 
+from data_generator import generate_data
+
 
 #自信の名称をappという名前でインスタンス化する
 app = Flask(__name__)
@@ -22,40 +24,39 @@ def pickup():
 def gen_graph():
     rng = pd.date_range('1/1/2011', periods=7500, freq='H')
     ts = pd.Series(np.random.randn(len(rng)), index=rng)
+
+    time,time_val,freqs,wav_val = generate_data()
+
     graphs = [
         dict(
             data=[
                 dict(
-                    x=[1,2,3],
-                    y=[10,20,30],
-                    type="scatter"
-                ),
-            ],
-            layout=dict(
-                title="first graph"
-            )
-        ),
-
-        dict(
-            data=[
-                dict(
-                    x=[1,3,5],
-                    y=[10,50,30],
-                    type="bar"
-                ),
-            ],
-            layout=dict(
-                title="second graph"
-            )
-        ),
-
-        dict(
-            data=[
-                dict(
-                    x=ts.index,
-                    y=ts
+                    x=time,
+                    y=freqs,
+                    z=wav_val,
+                    type="heatmap"
                 )
             ]
+        ),
+
+        dict(
+            data=[
+                dict(
+                    x=time,
+                    y=time_val,
+                    type="line"
+                )
+            ],
+            layout=dict(
+                title="range slider test",
+                xaxis=dict(
+                    range=np.array([0,20]),
+                    rangeslider=dict()
+                ),
+                yaxis=dict(
+                    title="value"
+                )
+            )
         )
     ]
     return graphs
