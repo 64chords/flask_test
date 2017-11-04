@@ -27,48 +27,38 @@ def gen_graph():
 
     time,time_val,freqs,wav_val = generate_data()
 
-    graphs = [
-    # time series
-        dict(
-            data=[
-                dict(
-                    x=time,
-                    y=time_val,
-                    type="line"
-                )
-            ],
-            layout=dict(
-                title="range slider test",
-                xaxis=dict(
-                    range=np.array([0,20]),
-                    rangeslider=dict()
-                ),
-                yaxis=dict(
-                    title="value"
-                )
+    graphs = dict(
+        data=[
+            dict(
+                x=time,
+                y=time_val,
+                yaxis="y2",
+                type="line"
+            ),
+            dict(
+                x=time,
+                y=freqs,
+                z=wav_val,
+                type="heatmap"
             )
-        ),
-        # wavelet
-        dict(
-            data=[
-                dict(
-                    x=time,
-                    y=freqs,
-                    z=wav_val,
-                    type="heatmap"
-                )
-            ],
-            layout=dict(
-                title="wavelet transform",
-                xaxis=dict(
-                    title="time[s]",
-                ),
-                yaxis=dict(
-                    title="frequency[Hz]"
-                )
+        ],
+        layout=dict(
+            height=800,
+            xaxis=dict(
+                title="time[s]",
+                range=np.array([0,30]),
+                rangeslider=dict()
+            ),
+            yaxis2=dict(
+                domain=[0.8,1.0],
+                title="value"
+            ),
+            yaxis=dict(
+                domain=[0,0.8],
+                title="frequency[Hz]"
             )
-        ),
-    ]
+        )
+    )
     return graphs
 
 @app.route("/")

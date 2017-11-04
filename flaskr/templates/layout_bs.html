@@ -17,11 +17,11 @@
 <script type="text/javascript">
     var graphs = {{graphJSON | safe}};
     var ids = {{ids | safe}};
-    for(var i in graphs) {
-        Plotly.newPlot(ids[i], // the ID of the div, created above
-                    graphs[i].data,
-                    graphs[i].layout || {});  //layoutプロパティが無ければ空のオブジェクト
-    }
+    Plotly.newPlot(
+      "wavelet",
+      graphs.data,
+      graphs.layout
+    )
 </script>
 {{super()}}
 {% endblock %}
