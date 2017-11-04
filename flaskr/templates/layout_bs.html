@@ -7,6 +7,16 @@
   {% endif %}
 {% endblock %}
 
+{% block scripts %}
+<!-- D3.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Plotly.js -->
+<script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+{{super()}}
+{% endblock %}
+
 {% block navbar %}
 <div class="navbar">
   <nav class="navbar navbar-inverse">
