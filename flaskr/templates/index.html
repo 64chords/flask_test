@@ -23,4 +23,18 @@
   </div>
 </div>
 
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      {% for id in ids %}
+        <h3>{{ id }}</h3>
+        <div id="{{ id }}">
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}
