@@ -28,17 +28,7 @@ def gen_graph():
     time,time_val,freqs,wav_val = generate_data()
 
     graphs = [
-        dict(
-            data=[
-                dict(
-                    x=time,
-                    y=freqs,
-                    z=wav_val,
-                    type="heatmap"
-                )
-            ]
-        ),
-
+    # time series
         dict(
             data=[
                 dict(
@@ -57,7 +47,27 @@ def gen_graph():
                     title="value"
                 )
             )
-        )
+        ),
+        # wavelet
+        dict(
+            data=[
+                dict(
+                    x=time,
+                    y=freqs,
+                    z=wav_val,
+                    type="heatmap"
+                )
+            ],
+            layout=dict(
+                title="wavelet transform",
+                xaxis=dict(
+                    title="time[s]",
+                ),
+                yaxis=dict(
+                    title="frequency[Hz]"
+                )
+            )
+        ),
     ]
     return graphs
 
