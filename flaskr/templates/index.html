@@ -1,6 +1,18 @@
 {% extends "layout_bs.html" %}
 {% block content %}
 
+<!-- show alert box -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+
 <div class="container-fluid">
   <div class="row">
     <!-- 左メニュー -->
@@ -9,27 +21,33 @@
       <div class="panel panel-default">
         <!-- パネルヘッダー -->
         <div class="panel-heading">
-          <form action="{{ url_for('post') }}" method="post">
+          <form id="add-form" action="{{ url_for('post') }}" method="post" enctype="multipart/form-data">
           <label class="btn btn-info navbar-btn">
               <span class="glyphicon glyphicon-plus"></span>
-              <input type="file submit" style="display:none">
-              <!-- <input type="submit"> -->
+              <!-- name属性を忘れないこと！(request.filesに使用) -->
+              <input type="file" id="add-file" style="display:none" name="file">
               Add file...
           </label>
           </form>
         </div>
         <!-- パネルリスト -->
         <ul class="nav nav-pills nav-stacked">
-            <li><a href=""><i class="glyphicon glyphicon-pencil"></i> submenu1</a></li>
-            <li><a href=""><i class="glyphicon glyphicon-download"></i> submenu2</a></li>
-            <li><a href=""><i class="glyphicon glyphicon-leaf"></i> submenu3</a></li>
-            <li><a href=""><i class="glyphicon glyphicon-folder-open"></i> submenu4</a></li>
+            {% if filename %}
+            <li><a href=""><i class="glyphicon glyphicon-chevron-right"></i>{{ filename }}</a></li>
+            {% endif %}
         </ul>
     </div>
     </div>
-    <!-- waveletの描画 -->
     <div class="col-md-10">
-      <div id="wavelet"></div>
+      <!-- show init message -->
+      {% if body_message %}
+        <h1>Wavelet Transformer</h1>
+        <h5>Add file for wavelet continuous transform analysis.</h5>
+      {% endif %}
+      <div class="panel panel-default">
+        <!-- waveletの描画 -->
+        <div id="wavelet"></div>
+      </div>
     </div>
   </div>
 

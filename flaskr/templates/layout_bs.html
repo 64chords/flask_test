@@ -17,7 +17,6 @@
 <!-- グラフ描画 -->
 <script type="text/javascript">
     var graphs = {{graphJSON | safe}};
-    var ids = {{ids | safe}};
     Plotly.newPlot(
       "wavelet",
       graphs.data,
@@ -25,10 +24,11 @@
     )
 </script>
 <script>
-$(document).on('change', ':file', function() {
-    alert("Files changed.");
-});
+  document.getElementById("add-file").onchange = function() {
+      document.getElementById("add-form").submit();
+  }
 </script>
+
 {{super()}}
 {% endblock %}
 

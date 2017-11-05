@@ -1,30 +1,37 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import Flask,render_template,request,redirect,url_for,flash
+from werkzeug.utils import secure_filename
 from flask_bootstrap import Bootstrap
 
+import os
 import numpy as np
 import pandas as pd
 import json
 import plotly
 
-from data_generator import generate_data
+from data_generator import cwt
 
+UPLOAD_FOLDER = "./uploads/"
+SECRET_KEY = "secret key"
+ALLOWED_EXTENSIONS = set(['csv'])
 
 #自信の名称をappという名前でインスタンス化する
 app = Flask(__name__)
 boot_strap = Bootstrap(app)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = SECRET_KEY
 
-def pickup():
-    messages = [
-        "hello",
-        "good",
-        "excelent"
-    ]
-    return np.random.choice(messages)
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def gen_graph():
+def load_csv(file):
+    df = pd.read_csv(file)
+    time = np.array(df.iloc[:,0])
+    time_val = np.array(df.iloc[:,1])
+    return time,time_val
+
+def gen_graph(time,time_val,freqs,wav_val):
     """グラフオブジェクトの生成"""
-    time,time_val,freqs,wav_val = generate_data()
-
     graphs = dict(
         data=[
             dict(
@@ -62,32 +69,49 @@ def gen_graph():
 
 @app.route("/")
 def index():
-    title = "ようこそ"
-    # 表示するメッセージの取得
-    message = pickup()
-    # 描画データ
-    # graphs = gen_graph()
-    # idsの追加
-    # ids = ["graph-{}".format(i) for i,_ in enumerate(graphs)]
-    # figureをJsonへ変換 pandas,datetime,etc objectsを変換できる
-    # graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
-
+    # [os.remove(os.path.join(app.config['UPLOAD_FOLDER'],file_)) for file_ in os.listdir(app.config['UPLOAD_FOLDER'] )]
+    title = "wavelet transformer"
     # index.htmlのレンダリング
     return render_template(
         "index.html",
-        message=message,
-        title=title
-        # ids=ids,
-        # graphJSON=graphJSON
+        title=title,
+        body_message=True
     )
 
 @app.route("/post",methods=["GET","POST"])
 def post():
     title="PostTest"
     if request.method == "POST":
-        #リクエストフォームから名前を取得
-        # name = request.form["name"]
-        return render_template("index.html",title=title)
+        # check if the post request has the file part
+        if "file" not in request.files:
+            flash("No file part","add-file")
+            return redirect(request.url)
+        file = request.files["file"]
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == "":
+            flash("No selected file","add-file")
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # save file
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"],filename))
+            # load saved file
+            time,time_val = load_csv(os.path.join(app.config["UPLOAD_FOLDER"],filename))
+            # cwt
+            freqs,wav_val = cwt(time,time_val)
+            # gen graphJSON
+            graphs = gen_graph(time,time_val,freqs,wav_val)
+            graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
+            return render_template(
+                "index.html",
+                title="wct",
+                filename=filename,
+                graphJSON=graphJSON
+            )
+        else:
+            flash("only csv file is allowed","add-file")
+            return redirect(request.url)
     else:
         return redirect(url_for("index"))
 
