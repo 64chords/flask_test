@@ -22,12 +22,12 @@
         <!-- パネルヘッダー -->
         <div class="panel-heading">
           <form id="add-form" action="{{ url_for('post') }}" method="post" enctype="multipart/form-data">
-          <label class="btn btn-info navbar-btn">
-              <span class="glyphicon glyphicon-plus"></span>
-              <!-- name属性を忘れないこと！(request.filesに使用) -->
-              <input type="file" id="add-file" style="display:none" name="file">
-              Add file...
-          </label>
+            <label class="btn btn-info navbar-btn">
+                <span class="glyphicon glyphicon-plus"></span>
+                <!-- name属性を忘れないこと！(request.filesに使用) -->
+                <input type="file" id="add-file" style="display:none" name="file">
+                Add file...
+            </label>
           </form>
         </div>
         <!-- パネルリスト -->

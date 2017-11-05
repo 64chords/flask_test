@@ -25,9 +25,14 @@
 </script>
 <script>
   document.getElementById("add-file").onchange = function() {
-      document.getElementById("add-form").submit();
+    document.getElementById("add-form").submit();
   }
 </script>
+<!-- <script>
+  document.getElementById("params-btn").onclick = function(){
+    document.getElementById("params-form").submit();
+  }
+</script> -->
 
 {{super()}}
 {% endblock %}
@@ -41,13 +46,78 @@
               <a class="navbar-brand">Wavelet Transformer</a>
           </div>
           <!--ボタン -->
-          <label class="btn btn-default navbar-btn">
+          <button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#modal-settings">
+              <!-- settings -->
               <span class="glyphicon glyphicon-cog"></span>
               Settings
-          </label>
+          </button>
       </div>
   </nav>
 </div>
+
+<!-- 2.モーダルの配置 -->
+<div class="modal" id="modal-settings" tabindex="-1">
+    <div class="modal-dialog">
+        <!-- 3.モーダルのコンテンツ -->
+        <div class="modal-content">
+            <!-- 4.モーダルのヘッダ -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modal-label">WCT parameters</h4>
+            </div>
+            <!-- 5.モーダルのボディ -->
+            <div class="modal-body">
+                <form id="params-form" action="{{ url_for('params') }}" method="post">
+                  <!-- mother wavelet -->
+                  <div class="form-group">
+                    <label>Mother Wavelet Type</label>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="mother-wavelet" value="morlet" checked="checked">Morlet
+                      </label>
+                      <label>
+                        <input type="radio" name="mother-wavelet" value="paul">Paul
+                      </label>
+                      <label>
+                        <input type="radio" name="mother-wavelet" value="dog">DOG
+                      </label>
+                      <label>
+                        <input type="radio" name="mother-wavelet" value="mexican-hat">Mexican Hat
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Mother Wavelet Angular Frequency</label>
+                    <input type="number" name="ang-freq" value="8">
+                  </div>
+                  <!-- frequency -->
+                  <div class="form-group">
+                    <label>Min Frequency</label>
+                    <input type="number" name="min-freq" value="0.01">
+                  </div>
+                  <!-- resolution -->
+                  <div class="form-group">
+                    <label>Frequency Resolution</label>
+                    <input type="number" name="freq-resolution" value="50">
+                  </div>
+                  <div class="form-group">
+                    <label>Frequency Vector Type</label>
+                    <input type="radio" name="freq-vec-type" value="lin" checked="checked">linear
+                    <input type="radio" name="freq-vec-type" value="log">log
+                  </div>
+                </form>
+            </div>
+            <!-- 6.モーダルのフッタ -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                <button id="params-btn" type="submit" class="btn btn-primary">save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block content %}

@@ -115,6 +115,12 @@ def post():
     else:
         return redirect(url_for("index"))
 
+@app.route("/params",methods=["GET","POST"])
+def params():
+    if request.method == "POST":
+        import pdb; pdb.set_trace()
+    return render_template("index.html")
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host="0.0.0.0")
