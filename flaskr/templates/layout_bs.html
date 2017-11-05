@@ -28,11 +28,11 @@
     document.getElementById("add-form").submit();
   }
 </script>
-<!-- <script>
+<script>
   document.getElementById("params-btn").onclick = function(){
     document.getElementById("params-form").submit();
   }
-</script> -->
+</script>
 
 {{super()}}
 {% endblock %}
@@ -75,37 +75,37 @@
                     <label>Mother Wavelet Type</label>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="mother-wavelet" value="morlet" checked="checked">Morlet
+                        <input type="radio" name="mother_wavelet" value="morlet" checked="checked">Morlet
                       </label>
                       <label>
-                        <input type="radio" name="mother-wavelet" value="paul">Paul
+                        <input type="radio" name="mother_wavelet" value="paul">Paul
                       </label>
                       <label>
-                        <input type="radio" name="mother-wavelet" value="dog">DOG
+                        <input type="radio" name="mother_wavelet" value="dog">DOG
                       </label>
                       <label>
-                        <input type="radio" name="mother-wavelet" value="mexican-hat">Mexican Hat
+                        <input type="radio" name="mother_wavelet" value="mexican-hat">Mexican Hat
                       </label>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Mother Wavelet Angular Frequency</label>
-                    <input type="number" name="ang-freq" value="8">
+                    <input type="number" name="ang_freq" value="8">
                   </div>
                   <!-- frequency -->
                   <div class="form-group">
                     <label>Min Frequency</label>
-                    <input type="number" name="min-freq" value="0.01">
+                    <input type="number" name="min_freq" value="0.01">
                   </div>
                   <!-- resolution -->
                   <div class="form-group">
                     <label>Frequency Resolution</label>
-                    <input type="number" name="freq-resolution" value="50">
+                    <input type="number" name="freq_resolution" value="50">
                   </div>
                   <div class="form-group">
                     <label>Frequency Vector Type</label>
-                    <input type="radio" name="freq-vec-type" value="lin" checked="checked">linear
-                    <input type="radio" name="freq-vec-type" value="log">log
+                    <input type="radio" name="freq_vec_type" value="lin" checked="checked">linear
+                    <input type="radio" name="freq_vec_type" value="log">log
                   </div>
                 </form>
             </div>

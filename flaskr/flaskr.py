@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 from flask_bootstrap import Bootstrap
 
 import os
+import json
 import numpy as np
 import pandas as pd
 import json
@@ -29,6 +30,16 @@ def load_csv(file):
     time = np.array(df.iloc[:,0])
     time_val = np.array(df.iloc[:,1])
     return time,time_val
+
+def save_params(params):
+    with open("uploads/params/params.json","w") as f:
+        json.dump(params,f)
+
+def load_params():
+    #JSON ファイルの読み込み
+    with open('uploads/params/params.json', 'r') as f:
+        json_dict = json.load(f)
+    return json_dict
 
 def gen_graph(time,time_val,freqs,wav_val):
     """グラフオブジェクトの生成"""
@@ -99,7 +110,14 @@ def post():
             # load saved file
             time,time_val = load_csv(os.path.join(app.config["UPLOAD_FOLDER"],filename))
             # cwt
-            freqs,wav_val = cwt(time,time_val)
+            params = load_params()
+            freqs,wav_val = cwt(time,time_val,
+                omega0=float(params["ang_freq"]),
+                wavelet_type=params["mother_wavelet"],
+                f_min=float(params["min_freq"]),
+                f_res=int(params["freq_resolution"]),
+                vec_type=params["freq_vec_type"]
+            )
             # gen graphJSON
             graphs = gen_graph(time,time_val,freqs,wav_val)
             graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
@@ -118,8 +136,11 @@ def post():
 @app.route("/params",methods=["GET","POST"])
 def params():
     if request.method == "POST":
-        import pdb; pdb.set_trace()
-    return render_template("index.html")
+        # get form contents
+        params = request.form
+        save_params(params)
+    # return render_template("index.html")
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.debug = True
