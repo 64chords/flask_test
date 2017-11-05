@@ -23,6 +23,7 @@ def generate_data():
     # value axis
     value = y
     # do cwt
-    r = pycwt.cwt_f(y,freqs,Fs,pycwt.Morlet(omega0))
-    rr = np.abs(r)
+    # r = pycwt.cwt_f(y,freqs,Fs,pycwt.Morlet(omega0))
+    # rr = np.abs(r)
+    rr = np.random.rand(x.shape[0],freqs.shape[0])
     return time,value,freqs,rr

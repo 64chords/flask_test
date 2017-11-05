@@ -22,9 +22,7 @@ def pickup():
     return np.random.choice(messages)
 
 def gen_graph():
-    rng = pd.date_range('1/1/2011', periods=7500, freq='H')
-    ts = pd.Series(np.random.randn(len(rng)), index=rng)
-
+    """グラフオブジェクトの生成"""
     time,time_val,freqs,wav_val = generate_data()
 
     graphs = dict(
@@ -39,6 +37,7 @@ def gen_graph():
                 x=time,
                 y=freqs,
                 z=wav_val,
+                colorscale='Electric',
                 type="heatmap"
             )
         ],
@@ -67,28 +66,28 @@ def index():
     # 表示するメッセージの取得
     message = pickup()
     # 描画データ
-    graphs = gen_graph()
+    # graphs = gen_graph()
     # idsの追加
-    ids = ["graph-{}".format(i) for i,_ in enumerate(graphs)]
+    # ids = ["graph-{}".format(i) for i,_ in enumerate(graphs)]
     # figureをJsonへ変換 pandas,datetime,etc objectsを変換できる
-    graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
+    # graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
 
     # index.htmlのレンダリング
     return render_template(
         "index.html",
         message=message,
-        title=title,
-        ids=ids,
-        graphJSON=graphJSON
+        title=title
+        # ids=ids,
+        # graphJSON=graphJSON
     )
 
 @app.route("/post",methods=["GET","POST"])
 def post():
-    title="こんにちは"
+    title="PostTest"
     if request.method == "POST":
         #リクエストフォームから名前を取得
-        name = request.form["name"]
-        return render_template("index.html",name=name,title=title)
+        # name = request.form["name"]
+        return render_template("index.html",title=title)
     else:
         return redirect(url_for("index"))
 

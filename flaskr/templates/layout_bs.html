@@ -14,6 +14,7 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <!-- Plotly.js -->
 <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+<!-- グラフ描画 -->
 <script type="text/javascript">
     var graphs = {{graphJSON | safe}};
     var ids = {{ids | safe}};
@@ -23,27 +24,27 @@
       graphs.layout
     )
 </script>
+<script>
+$(document).on('change', ':file', function() {
+    alert("Files changed.");
+});
+</script>
 {{super()}}
 {% endblock %}
 
 {% block navbar %}
 <div class="navbar">
   <nav class="navbar navbar-inverse">
-      <div class="container">
-          <!-- 2.ヘッダ情報 -->
+      <div class="container-fluid">
+          <!--ヘッダ情報 -->
           <div class="navbar-header">
-              <a class="navbar-brand">在庫管理システム</a>
+              <a class="navbar-brand">Wavelet Transformer</a>
           </div>
-          <!-- 3.リストの配置 -->
-          <ul class="nav navbar-nav">
-              <li class="active"><a href="#">本部からのお知らせ</a></li>
-              <li><a href="#">在庫確認</a></li>
-              <li><a href="#">入出庫登録</a></li>
-          </ul>
-          <!-- 4.ボタン -->
-          <button type="button" class="btn btn-default navbar-btn">
-              <span class="glyphicon glyphicon-envelope"></span>
-          </button>
+          <!--ボタン -->
+          <label class="btn btn-default navbar-btn">
+              <span class="glyphicon glyphicon-cog"></span>
+              Settings
+          </label>
       </div>
   </nav>
 </div>
