@@ -41,8 +41,15 @@ def load_params():
         json_dict = json.load(f)
     return json_dict
 
-def gen_graph(time,time_val,freqs,wav_val):
+def gen_graph(time,time_val,freqs,wav_val,vec_type):
     """グラフオブジェクトの生成"""
+    # 周波数軸
+    if vec_type == "log":
+        yaxis_type = "log"
+    elif vec_type == "lin":
+        yaxis_type = "linear"
+    else:
+        raise Exception()
     graphs = dict(
         data=[
             dict(
@@ -71,6 +78,7 @@ def gen_graph(time,time_val,freqs,wav_val):
                 title="value"
             ),
             yaxis=dict(
+                type=vec_type,
                 domain=[0,0.8],
                 title="frequency[Hz]"
             )
@@ -119,7 +127,7 @@ def post():
                 vec_type=params["freq_vec_type"]
             )
             # gen graphJSON
-            graphs = gen_graph(time,time_val,freqs,wav_val)
+            graphs = gen_graph(time,time_val,freqs,wav_val,params["freq_vec_type"])
             graphJSON = json.dumps(graphs,cls=plotly.utils.PlotlyJSONEncoder)
             return render_template(
                 "index.html",
