@@ -1,1 +1,1 @@
-{"freq_vec_type": "lin", "ang_freq": "8", "freq_resolution": "50", "mother_wavelet": "morlet", "min_freq": "0.01"}
+{"freq_vec_type": "log", "ang_freq": "8", "freq_resolution": "50", "mother_wavelet": "morlet", "min_freq": "0.01"}
