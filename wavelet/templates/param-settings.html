@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <div class="modal-title"><h4 class="param-title">WCT parameters</h4></div>
+</div>
+
+<form role="form" name="modalForm" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="radio" class="param-caption">Mother Wavelet Type</label>
+      <div class="radio">
+        <label>
+          <input type="radio" ng-model="motherWavelet" value="morlet">Morlet
+        </label>
+        <label>
+          <input type="radio" ng-model="motherWavelet" value="paul">Paul
+        </label>
+        <label>
+          <input type="radio" ng-model="motherWavelet" value="dog">DOG
+        </label>
+        <label>
+          <input type="radio" ng-model="motherWavelet" value="mexicanHat">Mexican Hat
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="param-caption">Mother Wavelet Angular Frequency</label>
+      <br>
+      <input type="number" ng-model="angFreq">
+    </div>
+
+    <div class="form-group">
+      <label class="param-caption">Min Frequency</label>
+      <br>
+      <input type="number" ng-model="minFreq" step="0.01">
+    </div>
+
+    <div class="form-group">
+      <label class="param-caption">Frequency Resolution</label>
+      <br>
+      <input type="number" ng-model="freqResolution">
+    </div>
+
+    <div class="form-group">
+      <label class="param-caption">Frequency Vector Type</label>
+      <br>
+      <input type="radio" ng-model="freqVecType" value="lin">linear
+      <input type="radio" ng-model="freqVecType" value="log">log
+    </div>
+  </div>
+  <!-- footer -->
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+  </div>
+</form>

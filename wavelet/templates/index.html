@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="waveletTransformer" ng-controller="waveletController">
+  <head>
+    <title>Wavelet Transformer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- stylesheets -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="main.css">
+
+    <!-- scripts -->
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <!-- ui-bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.0.0/ui-bootstrap-tpls.min.js"></script>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+    <!-- main -->
+    <script src="js/main.js" charset="utf-8"></script>
+    <!-- param-settings -->
+    <script src="js/param-settings.js" charset="utf-8"></script>
+    <!-- plot -->
+    <!-- <script src="../static/js/plot.js" charset="utf-8"></script> -->
+  </head>
+
+  <body>
+    <!-- navigation bar -->
+    <div class="navbar">
+      <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+              <!--ヘッダ情報 -->
+              <div class="navbar-header">
+                  <a class="navbar-brand">Wavelet Transformer</a>
+              </div>
+              <!--button for settings-->
+              <button class="btn btn-default navbar-btn" ng-click="openParamSettings()">
+                  <!-- icon -->
+                  <span class="glyphicon glyphicon-cog"></span>
+                  Settings
+              </button>
+          </div>
+      </nav>
+    </div>
+
+    <div class="row">
+      <!-- side menu -->
+      <div class="col-md-2">
+        <!-- パネルで囲む -->
+        <div class="panel panel-default">
+          <!-- パネルヘッダー -->
+          <div class="panel-heading">
+            <form id="add-form" action="{{ url_for('post') }}" method="post" enctype="multipart/form-data">
+              <label class="btn btn-info navbar-btn">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <!-- name属性を忘れないこと！(request.filesに使用) -->
+                  <input type="file" id="add-file" style="display:none" name="file">
+                  Add file...
+              </label>
+            </form>
+          </div>
+          <!-- パネルリスト -->
+          <ul class="nav nav-pills nav-stacked">
+
+          </ul>
+      </div>
+      </div>
+
+      <!-- graph area -->
+      <div class="col-md-10">
+        <div class="panel panel-default">
+          <!-- waveletの描画 -->
+          {{motherWavelet}}
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

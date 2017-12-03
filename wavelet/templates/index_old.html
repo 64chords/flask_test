@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html ng-app="waveletTransformer" ng-controller="waveletController">
+  <head>
+    <title>Wavelet Transformer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- stylesheets -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <!-- scripts -->
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <!-- D3.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <!-- Plotly.js -->
+    <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+  </head>
+
+  <body>
+    <!-- navigation bar -->
+    <div class="navbar">
+      <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+              <!--ヘッダ情報 -->
+              <div class="navbar-header">
+                  <a class="navbar-brand">Wavelet Transformer</a>
+              </div>
+              <!--ボタン -->
+              <button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#modal-settings">
+                  <!-- settings -->
+                  <span class="glyphicon glyphicon-cog"></span>
+                  Settings
+              </button>
+          </div>
+      </nav>
+    </div>
+
+    <!-- modal form for parameter settings-->
+    <div class="modal" id="modal-settings" tabindex="-1">
+        <div class="modal-dialog">
+            <!-- 3.モーダルのコンテンツ -->
+            <div class="modal-content">
+                <!-- 4.モーダルのヘッダ -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modal-label">WCT parameters</h4>
+                </div>
+                <!-- 5.モーダルのボディ -->
+                <div class="modal-body">
+                    <form id="params-form" action="{{ url_for('params') }}" method="post">
+                      <!-- mother wavelet -->
+                      <div class="form-group">
+                        <label>Mother Wavelet Type</label>
+                        <div class="radio">
+                          <label>
+                            <input type="radio" name="mother_wavelet" value="morlet" checked="checked">Morlet
+                          </label>
+                          <label>
+                            <input type="radio" name="mother_wavelet" value="paul">Paul
+                          </label>
+                          <label>
+                            <input type="radio" name="mother_wavelet" value="dog">DOG
+                          </label>
+                          <label>
+                            <input type="radio" name="mother_wavelet" value="mexican-hat">Mexican Hat
+                          </label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Mother Wavelet Angular Frequency</label>
+                        <input type="number" name="ang_freq" value="8">
+                      </div>
+                      <!-- frequency -->
+                      <div class="form-group">
+                        <label>Min Frequency</label>
+                        <input type="number" name="min_freq" value="0.01">
+                      </div>
+                      <!-- resolution -->
+                      <div class="form-group">
+                        <label>Frequency Resolution</label>
+                        <input type="number" name="freq_resolution" value="50">
+                      </div>
+                      <div class="form-group">
+                        <label>Frequency Vector Type</label>
+                        <input type="radio" name="freq_vec_type" value="lin" checked="checked">linear
+                        <input type="radio" name="freq_vec_type" value="log">log
+                      </div>
+                    </form>
+                </div>
+                <!-- 6.モーダルのフッタ -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                    <button id="params-btn" type="submit" class="btn btn-primary">save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <!-- side menu -->
+      <div class="col-md-2">
+        <!-- パネルで囲む -->
+        <div class="panel panel-default">
+          <!-- パネルヘッダー -->
+          <div class="panel-heading">
+            <form id="add-form" action="{{ url_for('post') }}" method="post" enctype="multipart/form-data">
+              <label class="btn btn-info navbar-btn">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <!-- name属性を忘れないこと！(request.filesに使用) -->
+                  <input type="file" id="add-file" style="display:none" name="file">
+                  Add file...
+              </label>
+            </form>
+          </div>
+          <!-- パネルリスト -->
+          <ul class="nav nav-pills nav-stacked">
+              {% if filename %}
+              <li><a href=""><i class="glyphicon glyphicon-chevron-right"></i>{{ filename }}</a></li>
+              {% endif %}
+          </ul>
+      </div>
+      </div>
+
+      <!-- graph area -->
+      <div class="col-md-10">
+        <!-- show init message -->
+        {% if body_message %}
+          <h1>Wavelet Transformer</h1>
+          <h5>Add file for wavelet continuous transform analysis.</h5>
+        {% endif %}
+        <div class="panel panel-default">
+          <!-- waveletの描画 -->
+          <div id="wavelet"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
